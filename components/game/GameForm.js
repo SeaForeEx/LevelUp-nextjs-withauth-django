@@ -2,7 +2,9 @@ import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { createGame, getGameTypes } from '../../utils/data/gameData';
+import {
+  createGame, getGameTypes, updateGame,
+} from '../../utils/data/gameData';
 import { useAuth } from '../../utils/context/authContext';
 
 const initialState = {
@@ -14,15 +16,17 @@ const initialState = {
 };
 
 const GameForm = ({ obj }) => {
+  // const [formInput, setFormInput] = useState(initialState);
   const [gameTypes, setGameTypes] = useState([]);
-  /*
-  Since the input fields are bound to the values of
-  the properties of this state variable, you need to
-  provide some default values.
-  */
   const [currentGame, setCurrentGame] = useState(initialState);
+  // const [currentGame, setCurrentGame] = useState([]);
   const router = useRouter();
   const { user } = useAuth();
+
+  // useEffect(() => {
+  //   getGames(user.uid).then(setCurrentGame);
+  //   if (obj.id) setFormInput(obj);
+  // }, [obj, user]);
 
   useEffect(() => {
     if (obj.id) {
@@ -30,9 +34,9 @@ const GameForm = ({ obj }) => {
         id: obj.id,
         maker: obj.maker,
         title: obj.title,
-        numberOfPlayers: Number(obj.numberOfPlayers),
-        skillLevel: Number(obj.skillLevel),
-        gameType: Number(obj.gameType.id),
+        numberOfPlayers: obj.numberOfPlayers,
+        skillLevel: obj.skillLevel,
+        gameType: obj.gameType.id,
         userId: user.uid,
       });
     }
@@ -56,26 +60,75 @@ const GameForm = ({ obj }) => {
     }));
   };
 
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+
+  //   // Validate if the input is a valid integer
+  //   if (name === 'numberOfPlayers' && !Number.isInteger(Number(value))) {
+  //     return; // Do not update the state if the input is not a valid integer
+  //   }
+
+  //   setFormInput((prevState) => ({
+  //     ...prevState,
+  //     [name]: value,
+  //   }));
+  // };
+
   const handleSubmit = (e) => {
     // Prevent form from being submitted
     e.preventDefault();
 
-    const game = {
-      maker: currentGame.maker,
-      title: currentGame.title,
-      numberOfPlayers: Number(currentGame.numberOfPlayers),
-      skillLevel: Number(currentGame.skillLevel),
-      gameType: Number(currentGame.gameTypeId),
-      userId: user.uid,
-    };
-
-    // Send POST request to your API
-    createGame(game).then(() => router.push('/games/games'));
+    // Check if the game has an ID (existing game being updated)
+    if (obj.id) {
+      // Prepare game data for update
+      const gameUpdate = {
+        id: obj.id,
+        maker: currentGame.maker,
+        title: currentGame.title,
+        numberOfPlayers: currentGame.numberOfPlayers,
+        skillLevel: currentGame.skillLevel,
+        gameType: currentGame.gameType,
+        userId: user.uid,
+      };
+      updateGame(gameUpdate)
+        .then(() => router.push('/games/games'));
+    } else {
+      // Prepare game data for creation
+      const game = {
+        maker: currentGame.maker,
+        title: currentGame.title,
+        numberOfPlayers: currentGame.numberOfPlayers,
+        skillLevel: currentGame.skillLevel,
+        gameType: currentGame.gameTypeId,
+        userId: user.uid,
+      };
+      // Send POST request to your API
+      createGame(game).then(() => router.push('/games/games'));
+    }
   };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (obj.id) {
+  //     updateGame(formInput)
+  //       .then(() => router.push('/games/games'));
+  //   } else {
+  //     const game = { ...formInput, uid: user.uid };
+  //     createGame(game).then(({ name }) => {
+  //       const patchPayload = { id: name };
+  //       updateGame(patchPayload).then(() => {
+  //         router.push('/games/games');
+  //       });
+  //     });
+  //   }
+  // };
 
   return (
     <>
       <Form onSubmit={handleSubmit}>
+
+        <h2 className="text-white mt-5">{obj.id ? 'Update' : 'Create'} Game</h2>
+
         <Form.Group className="mb-3">
           <Form.Label>Title</Form.Label>
           <Form.Control name="title" required value={currentGame.title} onChange={handleChange} />
