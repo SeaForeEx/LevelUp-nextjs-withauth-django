@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useRouter } from 'next/router';
 import { Button, Card } from 'react-bootstrap';
+import { deleteGame } from '../../utils/data/gameData';
 
 const GameCard = ({
   id,
@@ -9,7 +10,13 @@ const GameCard = ({
   maker,
   numberOfPlayers,
   skillLevel,
+  onUpdate,
 }) => {
+  const deleteThisGame = () => {
+    if (window.confirm('Delete Game?')) {
+      deleteGame(id).then(() => onUpdate());
+    }
+  };
   const router = useRouter();
 
   return (
@@ -27,6 +34,9 @@ const GameCard = ({
       >
         Edit Game
       </Button>
+      <Button onClick={deleteThisGame}>
+        Delete
+      </Button>
     </Card>
   );
 };
@@ -37,6 +47,7 @@ GameCard.propTypes = {
   maker: PropTypes.string.isRequired,
   numberOfPlayers: PropTypes.number.isRequired,
   skillLevel: PropTypes.number.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default GameCard;
