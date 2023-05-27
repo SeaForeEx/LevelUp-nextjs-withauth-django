@@ -11,8 +11,8 @@ const initialState = {
   description: '',
   date: '',
   time: '',
-  organizer: '',
-  game: '',
+  organizer: 0,
+  game: 0,
 };
 
 const EventForm = ({ obj }) => {
@@ -22,16 +22,17 @@ const EventForm = ({ obj }) => {
   const { user } = useAuth();
 
   useEffect(() => {
-    if (obj.id) {
-      setCurrentEvent({
+    if (obj && obj.id) {
+      setCurrentEvent((prevState) => ({
+        ...prevState,
         id: obj.id,
+        game: obj.game ? obj.game.id : 0,
         description: obj.description,
         date: obj.date,
         time: obj.time,
-        game: obj.game.id,
         organizer: obj.organizer,
         userId: user.uid,
-      });
+      }));
     }
   }, [obj, user]);
 

@@ -9,6 +9,7 @@ const EventCard = ({
   date,
   time,
 }) => {
+  console.warn(id);
   const router = useRouter();
   return (
     <Card className="text-center">

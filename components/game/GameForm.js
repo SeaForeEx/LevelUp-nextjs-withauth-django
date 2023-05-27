@@ -23,11 +23,6 @@ const GameForm = ({ obj }) => {
   const router = useRouter();
   const { user } = useAuth();
 
-  // useEffect(() => {
-  //   getGames(user.uid).then(setCurrentGame);
-  //   if (obj.id) setFormInput(obj);
-  // }, [obj, user]);
-
   useEffect(() => {
     if (obj.id) {
       setCurrentGame({
