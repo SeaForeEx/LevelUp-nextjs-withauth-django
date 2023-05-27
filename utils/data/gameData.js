@@ -53,7 +53,6 @@ const updateGame = (game) => new Promise((resolve, reject) => {
     },
     body: JSON.stringify(game),
   })
-    // .then((response) => response.json())
     .then(resolve)
     .catch(reject);
 });
