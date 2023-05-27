@@ -2,14 +2,20 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useRouter } from 'next/router';
 import { Button, Card } from 'react-bootstrap';
+import { deleteEvent } from '../../utils/data/eventData';
 
 const EventCard = ({
   id,
   description,
   date,
   time,
+  onUpdate,
 }) => {
-  console.warn(id);
+  const deleteThisEvent = () => {
+    if (window.confirm('Delete Event?')) {
+      deleteEvent(id).then(() => onUpdate());
+    }
+  };
   const router = useRouter();
   return (
     <Card className="text-center">
@@ -26,6 +32,9 @@ const EventCard = ({
       >
         Edit Event
       </Button>
+      <Button onClick={deleteThisEvent}>
+        Delete
+      </Button>
     </Card>
   );
 };
@@ -36,6 +45,7 @@ EventCard.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   date: PropTypes.string.isRequired,
   time: PropTypes.string.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default EventCard;

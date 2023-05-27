@@ -11,20 +11,22 @@ function Home() {
   useEffect(() => {
     getEvents().then((data) => setEvents(data));
   }, []);
+  const showEvents = () => {
+    getEvents().then((data) => setEvents(data));
+  };
 
   return (
     <article className="events">
       <h1>Events</h1>
-      <Button
-        onClick={() => {
-          router.push('/events/new');
-        }}
+      <Button onClick={() => {
+        router.push('/events/new');
+      }}
       >
         Register New Event
       </Button>
       {events.map((event) => (
         <section key={`event--${event.id}`} className="event">
-          <EventCard id={event.id} description={event.description} date={event.date} time={event.time} />
+          <EventCard id={event.id} description={event.description} date={event.date} time={event.time} onUpdate={showEvents} />
         </section>
       ))}
     </article>
