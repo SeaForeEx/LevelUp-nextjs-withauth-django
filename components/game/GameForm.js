@@ -12,7 +12,7 @@ const initialState = {
   numberOfPlayers: 0,
   title: '',
   maker: '',
-  gameTypeId: 0,
+  gameType: 0,
 };
 
 const GameForm = ({ obj }) => {
@@ -60,20 +60,6 @@ const GameForm = ({ obj }) => {
     }));
   };
 
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-
-  //   // Validate if the input is a valid integer
-  //   if (name === 'numberOfPlayers' && !Number.isInteger(Number(value))) {
-  //     return; // Do not update the state if the input is not a valid integer
-  //   }
-
-  //   setFormInput((prevState) => ({
-  //     ...prevState,
-  //     [name]: value,
-  //   }));
-  // };
-
   const handleSubmit = (e) => {
     // Prevent form from being submitted
     e.preventDefault();
@@ -99,29 +85,13 @@ const GameForm = ({ obj }) => {
         title: currentGame.title,
         numberOfPlayers: currentGame.numberOfPlayers,
         skillLevel: currentGame.skillLevel,
-        gameType: currentGame.gameTypeId,
+        gameType: currentGame.gameType,
         userId: user.uid,
       };
       // Send POST request to your API
       createGame(game).then(() => router.push('/games/games'));
     }
   };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (obj.id) {
-  //     updateGame(formInput)
-  //       .then(() => router.push('/games/games'));
-  //   } else {
-  //     const game = { ...formInput, uid: user.uid };
-  //     createGame(game).then(({ name }) => {
-  //       const patchPayload = { id: name };
-  //       updateGame(patchPayload).then(() => {
-  //         router.push('/games/games');
-  //       });
-  //     });
-  //   }
-  // };
 
   return (
     <>

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { createEvent } from '../../utils/data/eventData';
+import { createEvent, updateEvent } from '../../utils/data/eventData';
 import { getGames } from '../../utils/data/gameData';
 import { useAuth } from '../../utils/context/authContext';
 
@@ -51,23 +51,34 @@ const EventForm = ({ obj }) => {
   const handleSubmit = (e) => {
     // Prevent form from being submitted
     e.preventDefault();
-
-    const event = {
-      description: currentEvent.description,
-      date: currentEvent.date,
-      time: currentEvent.time,
-      organizer: currentEvent.organizer,
-      game: currentEvent.game,
-      userId: user.uid,
-    };
-
-    // Send POST request to your API
-    createEvent(event).then(() => router.push('/events/events'));
+    if (obj.id) {
+      const eventUpdate = {
+        id: obj.id,
+        description: currentEvent.description,
+        date: currentEvent.date,
+        time: currentEvent.time,
+        game: currentEvent.game,
+        userId: user.uid,
+      };
+      updateEvent(eventUpdate)
+        .then(() => router.push('/events/events'));
+    } else {
+      const event = {
+        description: currentEvent.description,
+        date: currentEvent.date,
+        time: currentEvent.time,
+        game: currentEvent.game,
+        userId: user.uid,
+      };
+      // Send POST request to your API
+      createEvent(event).then(() => router.push('/events/events'));
+    }
   };
 
   return (
     <>
       <Form onSubmit={handleSubmit}>
+        <h2 className="text-white mt-5">{obj.id ? 'Update' : 'Create'} Event</h2>
         <Form.Group className="mb-3">
           <Form.Label>Game</Form.Label>
           <Form.Select aria-label="game" name="game" onChange={handleChange} required value={currentEvent.game}>

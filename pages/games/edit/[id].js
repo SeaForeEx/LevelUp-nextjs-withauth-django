@@ -11,17 +11,17 @@ export default function EditGamePage() {
 
   const [editItem, setEditItem] = useState({});
 
-  // useEffect(() => {
-  //   getSingleGame(id).then((obj) => {
-  //     obj.numberOfPlayers = obj.number_of_players;
-  //     obj.skillLevel = obj.skill_level;
-  //     obj.gameType = obj.game_type;
-  //     setEditItem(obj);
-  //   });
-  // }, [id]);
   useEffect(() => {
-    getSingleGame(id).then(setEditItem);
+    getSingleGame(id).then((obj) => {
+      obj.numberOfPlayers = obj.number_of_players;
+      obj.skillLevel = obj.skill_level;
+      obj.gameType = obj.game_type;
+      setEditItem(obj);
+    });
   }, [id]);
+  // useEffect(() => {
+  //   getSingleGame(id).then(setEditItem);
+  // }, [id]);
   return (
     <>
       <Head>
