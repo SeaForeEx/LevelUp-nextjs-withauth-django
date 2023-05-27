@@ -40,7 +40,7 @@ const updateEvent = (event) => new Promise((resolve, reject) => {
     },
     body: JSON.stringify(event),
   })
-    .then(resolve)
+    .then((data) => resolve(data))
     .catch(reject);
 });
 
