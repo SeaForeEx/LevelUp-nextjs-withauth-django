@@ -1,5 +1,7 @@
 import { clientCredentials } from '../client';
 
+// These data calls are connecting to back end database
+
 const createEvent = (event) => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/events`, {
     method: 'POST',
@@ -13,8 +15,14 @@ const createEvent = (event) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const getEvents = () => new Promise((resolve, reject) => {
-  fetch(`${clientCredentials.databaseURL}/events`)
+const getEvents = (uid) => new Promise((resolve, reject) => {
+  fetch(`${clientCredentials.databaseURL}/events`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `${uid}`,
+    },
+  })
     .then((response) => response.json())
     .then(resolve)
     .catch(reject);
@@ -55,7 +63,27 @@ const deleteEvent = (event) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+const joinEvent = (eventId, uid) => new Promise((resolve, reject) => {
+  fetch(`http://localhost:8000/events/${eventId}/signup`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `${uid}`,
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
+});
+
+const leaveEvent = (eventId, uid) => fetch(`http://localhost:8000/events/${eventId}/leave`, {
+  method: 'DELETE',
+  headers: {
+    Authorization: `${uid}`,
+  },
+});
+
 // eslint-disable-next-line import/prefer-default-export
 export {
-  createEvent, getEvents, getSingleEvent, updateEvent, deleteEvent,
+  createEvent, getEvents, getSingleEvent, updateEvent, deleteEvent, joinEvent, leaveEvent,
 };

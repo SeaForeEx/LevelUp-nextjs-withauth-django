@@ -11,7 +11,7 @@ const createGame = (game) => new Promise((resolve, reject) => {
     .then((response) => response.json())
     .then((data) => {
       console.warn('Create Game Response:', data);
-      resolve(data);
+      resolve(data); // request.data from def create()
     })
     .catch((error) => {
       console.error('Create Game Error:', error);
