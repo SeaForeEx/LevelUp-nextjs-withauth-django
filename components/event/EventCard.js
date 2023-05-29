@@ -3,7 +3,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { Button, Card } from 'react-bootstrap';
 import {
-  deleteEvent, joinEvent, leaveEvent, getEvents,
+  deleteEvent, joinEvent, leaveEvent,
 } from '../../utils/data/eventData';
 import { useAuth } from '../../utils/context/authContext';
 
@@ -17,8 +17,8 @@ const EventCard = ({
 }) => {
   const { user } = useAuth();
 
-  const leave = () => leaveEvent(id, user.uid).then(() => getEvents());
-  const join = () => joinEvent(id, user.uid).then(() => getEvents());
+  const leave = () => leaveEvent(id, user.uid).then(() => onUpdate());
+  const join = () => joinEvent(id, user.uid).then(() => onUpdate());
   const deleteThisEvent = () => {
     if (window.confirm('Delete Event?')) {
       deleteEvent(id).then(() => onUpdate());
