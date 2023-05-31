@@ -6,7 +6,7 @@ import { deleteGame } from '../../utils/data/gameData';
 
 const GameCard = ({
   id,
-  title, //
+  title,
   maker,
   numberOfPlayers,
   skillLevel,
