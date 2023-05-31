@@ -15,15 +15,15 @@ const initialState = {
   gameType: 0,
 };
 
+// GameForm component
 const GameForm = ({ obj }) => {
-  // const [formInput, setFormInput] = useState(initialState);
-  const [gameTypes, setGameTypes] = useState([]);
-  const [currentGame, setCurrentGame] = useState(initialState);
-  // const [currentGame, setCurrentGame] = useState([]);
-  const router = useRouter();
-  const { user } = useAuth();
+  const [gameTypes, setGameTypes] = useState([]); // State for storing game types
+  const [currentGame, setCurrentGame] = useState(initialState); // State for storing current game data
+  const router = useRouter(); // Router instance from Next.js
+  const { user } = useAuth(); // Accessing authentication context
 
   useEffect(() => {
+    // When the component mounts or the "obj" or "user" changes, update the current game state
     if (obj.id) {
       setCurrentGame({
         id: obj.id,
@@ -38,6 +38,7 @@ const GameForm = ({ obj }) => {
   }, [obj, user]);
 
   useEffect(() => {
+    // When the component mounts, fetch the game types and update the game types state
     getGameTypes().then(setGameTypes);
   }, []);
 
@@ -56,7 +57,7 @@ const GameForm = ({ obj }) => {
   };
 
   const handleSubmit = (e) => {
-    // Prevent form from being submitted
+    // Prevent the form from being submitted
     e.preventDefault();
 
     // Check if the game has an ID (existing game being updated)
@@ -71,8 +72,9 @@ const GameForm = ({ obj }) => {
         gameType: Number(currentGame.gameType),
         userId: user.uid,
       };
+      // Update the game data using the updateGame function
       updateGame(gameUpdate)
-        .then(() => router.push('/games/games'));
+        .then(() => router.push('/games/games')); // Redirect to the games page after the update
     } else {
       // Prepare game data for creation
       const game = {
@@ -83,8 +85,8 @@ const GameForm = ({ obj }) => {
         gameType: currentGame.gameType,
         userId: user.uid,
       };
-      // Send POST request to your API
-      createGame(game).then(() => router.push('/games/games'));
+      // Create a new game by sending a POST request to the server using the createGame function
+      createGame(game).then(() => router.push('/games/games')); // Redirect to the games page after the creation
     }
   };
 
@@ -119,15 +121,16 @@ const GameForm = ({ obj }) => {
           <Form.Select aria-label="gametype" name="gameType" onChange={handleChange} required value={currentGame.gameType}>
             <option value="">Pick a Type</option>
             {
-              gameTypes.map((type) => (
-                <option
-                  key={type.id}
-                  value={type.id}
-                >
-                  {type.label}
-                </option>
-              ))
-            }
+      // Map over the gameTypes array and render an option element for each game type
+      gameTypes.map((type) => (
+        <option
+          key={type.id} // Assign a unique key to each option element
+          value={type.id} // Set the value of the option to the game type's ID
+        >
+          {type.label} {/* Display the label of the game type as the option text */}
+        </option>
+      ))
+    }
           </Form.Select>
         </Form.Group>
 

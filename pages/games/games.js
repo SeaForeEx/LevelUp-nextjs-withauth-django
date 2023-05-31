@@ -31,7 +31,14 @@ function Home() {
       {/* converting snake case data to camel case data for client */}
       {games.map((game) => (
         <section key={`game--${game.id}`} className="game">
-          <GameCard id={game.id} title={game.title} maker={game.maker} numberOfPlayers={game.number_of_players} skillLevel={game.skill_level} onUpdate={showGames} />
+          <GameCard
+            id={game.id} // Pass the game ID as a prop to GameCard
+            title={game.title} // Pass the game title as a prop to GameCard
+            maker={game.maker} // Pass the game maker as a prop to GameCard
+            numberOfPlayers={game.number_of_players} // Pass the number of players as a prop to GameCard
+            skillLevel={game.skill_level} // Pass the skill level as a prop to GameCard
+            onUpdate={showGames}
+          />
         </section>
       ))}
     </article>
