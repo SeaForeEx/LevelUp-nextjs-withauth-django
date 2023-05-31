@@ -68,7 +68,7 @@ const GameForm = ({ obj }) => {
         title: currentGame.title,
         numberOfPlayers: currentGame.numberOfPlayers,
         skillLevel: currentGame.skillLevel,
-        gameType: currentGame.gameType,
+        gameType: Number(currentGame.gameType),
         userId: user.uid,
       };
       updateGame(gameUpdate)
@@ -116,7 +116,7 @@ const GameForm = ({ obj }) => {
 
         <Form.Group className="mb-3">
           <Form.Label>Game Type</Form.Label>
-          <Form.Select aria-label="gametype" name="gameTypeId" onChange={handleChange} required value={currentGame.gameType}>
+          <Form.Select aria-label="gametype" name="gameType" onChange={handleChange} required value={currentGame.gameType}>
             <option value="">Pick a Type</option>
             {
               gameTypes.map((type) => (
@@ -146,8 +146,7 @@ GameForm.propTypes = {
     numberOfPlayers: PropTypes.number,
     title: PropTypes.string,
     maker: PropTypes.string,
-    // eslint-disable-next-line react/forbid-prop-types
-    gameType: PropTypes.object,
+    gameType: PropTypes.number,
   }),
 };
 
