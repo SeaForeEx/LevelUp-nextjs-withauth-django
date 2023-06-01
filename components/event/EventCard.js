@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useRouter } from 'next/router';
@@ -14,6 +15,7 @@ const EventCard = ({
   time,
   onUpdate,
   joined,
+  game,
 }) => {
   const { user } = useAuth();
 
@@ -27,7 +29,7 @@ const EventCard = ({
   const router = useRouter();
   return (
     <Card className="text-center">
-      <Card.Header>EVENT</Card.Header>
+      <Card.Header>Game: {game}</Card.Header>
       <Card.Body>
         <Card.Text>{description}</Card.Text>
         <Card.Text>{date}</Card.Text>
@@ -60,6 +62,7 @@ EventCard.propTypes = {
   time: PropTypes.string.isRequired,
   onUpdate: PropTypes.func.isRequired,
   joined: PropTypes.bool.isRequired,
+  game: PropTypes.string.isRequired,
 };
 
 export default EventCard;
