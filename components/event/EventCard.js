@@ -57,7 +57,6 @@ const EventCard = ({
 EventCard.propTypes = {
   id: PropTypes.number.isRequired,
   description: PropTypes.string.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
   date: PropTypes.string.isRequired,
   time: PropTypes.string.isRequired,
   onUpdate: PropTypes.func.isRequired,
