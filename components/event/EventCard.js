@@ -60,7 +60,7 @@ EventCard.propTypes = {
   date: PropTypes.string.isRequired,
   time: PropTypes.string.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  joined: PropTypes.bool.isRequired,
+  joined: PropTypes.number.isRequired,
   game: PropTypes.string.isRequired,
 };
 
