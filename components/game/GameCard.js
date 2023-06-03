@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { Button, Card } from 'react-bootstrap';
 import { deleteGame } from '../../utils/data/gameData';
 
-const GameCard = ({
+const GameCard = ({ // props are the parameters
   id,
   title,
   maker,
